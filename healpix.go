@@ -6,7 +6,12 @@ import (
 )
 
 // An equal area projection combining Lambert cylindrical with interrupted Collignon for the polar regions.
+// https://en.wikipedia.org/wiki/HEALPix
 type HEALPix struct{}
+
+func NewHEALPix() HEALPix {
+	return HEALPix{}
+}
 
 func (h HEALPix) Project(lat float64, lon float64) (x float64, y float64) {
 	colatitude := lat + math.Pi/2
