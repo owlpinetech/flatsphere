@@ -103,12 +103,12 @@ func (l CylindricalEqualArea) Bounds() Bounds {
 
 // An equal area projection with least distortion near the equator.
 // https://en.wikipedia.org/wiki/Lambert_cylindrical_equal-area_projection
-type Lambert struct {
+type LambertCylindrical struct {
 	CylindricalEqualArea
 }
 
-func NewLambert() Lambert {
-	return Lambert{NewCylindricalEqualArea(0)}
+func NewLambertCylindrical() LambertCylindrical {
+	return LambertCylindrical{NewCylindricalEqualArea(0)}
 }
 
 // An equal area projection with least distortion at 30 degrees latitude.
@@ -139,4 +139,65 @@ type HoboDyer struct {
 
 func NewHoboDyer() HoboDyer {
 	return HoboDyer{NewCylindricalEqualArea(37.5 * math.Pi / 180)}
+}
+
+// A compromise cylindrical projection that tries to minimize distortion as much as possible.
+// https://en.wikipedia.org/wiki/Gall_stereographic_projection
+type GallStereographic struct{}
+
+func NewGallStereographic() GallStereographic {
+	return GallStereographic{}
+}
+
+func (g GallStereographic) Project(lat float64, lon float64) (x float64, y float64) {
+	return lon, math.Tan(lat/2) * (1 + math.Sqrt(2))
+}
+
+func (g GallStereographic) Inverse(x float64, y float64) (lat float64, lon float64) {
+	return 2 * math.Atan(y/(1+math.Sqrt(2))), x
+}
+
+func (g GallStereographic) Bounds() Bounds {
+	return NewRectangleBounds(2*math.Pi, 1.5*math.Pi)
+}
+
+// A compromise cylindrical projection intended to resemble Mercator with less distortion at the poles.
+// https://en.wikipedia.org/wiki/Miller_cylindrical_projection
+type Miller struct{}
+
+func NewMiller() Miller {
+	return Miller{}
+}
+
+func (m Miller) Project(lat float64, lon float64) (x float64, y float64) {
+	return lon, math.Log(math.Tan(math.Pi/4+0.8*lat/2)) / 0.8
+}
+
+func (m Miller) Inverse(x float64, y float64) (lat float64, lon float64) {
+	return math.Atan(math.Sinh(y*0.8)) / 0.8, x
+}
+
+func (m Miller) Bounds() Bounds {
+	return NewRectangleBounds(2*math.Pi, 2.5*math.Log(math.Tan(9*math.Pi/20)))
+}
+
+// A compromise cylindrical projection with prominent use in panoramic photography, but very distorted
+// for mapping purposes.
+// https://en.wikipedia.org/wiki/Central_cylindrical_projection
+type Central struct{}
+
+func NewCentral() Central {
+	return Central{}
+}
+
+func (c Central) Project(lat float64, lon float64) (x float64, y float64) {
+	return lon, math.Tan(lat)
+}
+
+func (c Central) Inverse(x float64, y float64) (lat float64, lon float64) {
+	return math.Atan(y), x
+}
+
+func (c Central) Bounds() Bounds {
+	return NewRectangleBounds(2*math.Pi, 2*math.Pi)
 }

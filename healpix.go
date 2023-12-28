@@ -1,7 +1,6 @@
 package flatsphere
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -34,9 +33,9 @@ func (h HEALPix) Project(lat float64, lon float64) (x float64, y float64) {
 
 func (h HEALPix) Inverse(x float64, y float64) (lat float64, lon float64) {
 	absY := math.Abs(y)
-	if absY >= math.Pi/2 {
-		panic(fmt.Sprintf("flatsphere: domain error in projection coordinate y dimension, %v too big", y))
-	}
+	//if absY >= math.Pi/2 {
+	//	panic(fmt.Sprintf("flatsphere: domain error in projection coordinate y dimension, %v too big", y))
+	//}
 
 	if absY <= math.Pi/4 {
 		// equatorial region
