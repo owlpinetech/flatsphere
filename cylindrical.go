@@ -18,7 +18,7 @@ func (m Mercator) Inverse(x float64, y float64) (lat float64, lon float64) {
 	return math.Atan(math.Sinh(y)), x
 }
 
-func (m Mercator) Bounds() Bounds {
+func (m Mercator) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, 2*math.Pi)
 }
 
@@ -40,7 +40,7 @@ func (p PlateCarree) Inverse(x float64, y float64) (lat float64, lon float64) {
 	return y, x
 }
 
-func (p PlateCarree) Bounds() Bounds {
+func (p PlateCarree) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, math.Pi)
 }
 
@@ -65,7 +65,7 @@ func (e Equirectangular) Inverse(x float64, y float64) (lat float64, lon float64
 	return y * math.Cos(e.Parallel), x
 }
 
-func (e Equirectangular) Bounds() Bounds {
+func (e Equirectangular) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, math.Pi/math.Cos(e.Parallel))
 }
 
@@ -90,14 +90,14 @@ func (l CylindricalEqualArea) Parallel() float64 {
 }
 
 func (l CylindricalEqualArea) Project(lat float64, lon float64) (x float64, y float64) {
-	return lon, math.Sin(lat) * l.Bounds().YMax
+	return lon, math.Sin(lat) * l.PlanarBounds().YMax
 }
 
 func (l CylindricalEqualArea) Inverse(x float64, y float64) (lat float64, lon float64) {
-	return math.Asin(y / l.Bounds().YMax), x
+	return math.Asin(y / l.PlanarBounds().YMax), x
 }
 
-func (l CylindricalEqualArea) Bounds() Bounds {
+func (l CylindricalEqualArea) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, 2/l.Stretch)
 }
 
@@ -157,7 +157,7 @@ func (g GallStereographic) Inverse(x float64, y float64) (lat float64, lon float
 	return 2 * math.Atan(y/(1+math.Sqrt(2))), x
 }
 
-func (g GallStereographic) Bounds() Bounds {
+func (g GallStereographic) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, 1.5*math.Pi)
 }
 
@@ -177,7 +177,7 @@ func (m Miller) Inverse(x float64, y float64) (lat float64, lon float64) {
 	return math.Atan(math.Sinh(y*0.8)) / 0.8, x
 }
 
-func (m Miller) Bounds() Bounds {
+func (m Miller) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, 2.5*math.Log(math.Tan(9*math.Pi/20)))
 }
 
@@ -198,6 +198,6 @@ func (c Central) Inverse(x float64, y float64) (lat float64, lon float64) {
 	return math.Atan(y), x
 }
 
-func (c Central) Bounds() Bounds {
+func (c Central) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, 2*math.Pi)
 }

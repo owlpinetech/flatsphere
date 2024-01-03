@@ -21,8 +21,8 @@ func TestEqualAreaStretch(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			proj := NewCylindricalEqualArea(tc.lat)
-			if !withinTolerance(proj.Stretch, tc.stretch, 0.000001) {
-				t.Errorf("expected streth factor %f, got %f", tc.stretch, proj.Stretch)
+			if !withinTolerance(proj.Stretch, tc.stretch, 0.00001) {
+				t.Errorf("expected stretch factor %e, got %e", tc.stretch, proj.Stretch)
 			}
 		})
 	}

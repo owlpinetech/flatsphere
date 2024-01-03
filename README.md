@@ -1,12 +1,13 @@
 # flatsphere
 
 [![GoReportCard](https://goreportcard.com/badge/owlpinetech/flatsphere)](https://goreportcard.com/report/github.com/owlpinetech/flatsphere)
+![test](https://github.com/owlpinetech/flatsphere/actions/workflows/go.yml/badge.svg)
 
-A [Go][] library for converting between spherical and planar coordinates.
+A [Go](https://go.dev/) library for converting between spherical and planar coordinates.
 
 ## Prerequisites
 
-- **[Go][]**: any one of the **three latest major** [releases][go-releases].
+- **[Go](https://go.dev/)**: any one of the **three latest major** [releases](https://go.dev/doc/devel/release).
 
 ## Install
 
