@@ -61,6 +61,18 @@ func FuzzSinusoidal(f *testing.F) {
 //	projectInverseFuzz(f, NewMollweide())
 //}
 
+//func FuzzStereographic(f *testing.F) {
+//	projectInverseFuzz(f, NewStereographic())
+//}
+
+//func FuzzPolar(f *testing.F) {
+//	projectInverseFuzz(f, NewPolar())
+//}
+
+//func FuzzLambertAzimuthal(f *testing.F) {
+//	projectInverseFuzz(f, NewLambertAzimuthal())
+//}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true
@@ -78,10 +90,10 @@ func projectInverseFuzz(f *testing.F, proj Projection) {
 	f.Add(math.Pi/2, math.Pi)
 	f.Add(66.0, 0.0)
 	f.Fuzz(func(t *testing.T, lat float64, lon float64) {
-		if lat > math.Pi/2 {
+		if math.Abs(lat) > math.Pi/2 {
 			lat = math.Mod(lat, math.Pi/2)
 		}
-		if lon > math.Pi {
+		if math.Abs(lon) > math.Pi {
 			lon = math.Mod(lon, math.Pi)
 		}
 		x, y := proj.Project(lat, lon)
