@@ -15,11 +15,25 @@ A [Go](https://go.dev/) library for converting between spherical and planar coor
 
 ## Usage
 
-    // converting from one projection to another
+#### Projecting/Inverse
+
+    mercator := flatsphere.NewMercator()
+    x, y := mercator.Project(lat, lon)
+
+    rlat, rlon := mercator.Inverse(sampleX, sampleY)
+
+#### Reprojecting
+
     origProj := flatsphere.NewMercator()
     newProj := flatsphere.NewLambert()
     lat, lon := origProj.Inverse(origX, origY)
     newX, newY := newProj.Project(lat, lon)
+
+#### Oblique Projections
+
+    mercator := flatsphere.NewMercator()
+    transverseMercator := flatsphere.NewOblique(mercator, 0, math.Pi/2, -math.Pi/2)
+    x, y := transverseMercator.Project(lat, lon)
 
 ## Credits
 
