@@ -73,6 +73,10 @@ func FuzzSinusoidal(f *testing.F) {
 //	projectInverseFuzz(f, NewLambertAzimuthal())
 //}
 
+//func FuzzTransverseMercator(f *testing.F) {
+//	projectInverseFuzz(f, NewObliqueProjection(NewMercator(), 0, math.Pi/2, -math.Pi/2))
+//}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true
@@ -103,3 +107,30 @@ func projectInverseFuzz(f *testing.F, proj Projection) {
 		}
 	})
 }
+
+/*func FuzzObliqueTransformInverse(f *testing.F) {
+	f.Add(0.0, 0.0, 0.0, math.Pi/4, -math.Pi/4)
+	f.Fuzz(func(t *testing.T, lat float64, lon float64, poleLat float64, poleLon float64, poleTheta float64) {
+		if math.Abs(lat) > math.Pi/2 {
+			lat = math.Mod(lat, math.Pi/2)
+		}
+		if math.Abs(lon) > math.Pi {
+			lon = math.Mod(lon, math.Pi)
+		}
+		if math.Abs(poleLat) > math.Pi/2 {
+			poleLat = math.Mod(poleLat, math.Pi/2)
+		}
+		if math.Abs(poleLon) > math.Pi {
+			poleLon = math.Mod(poleLon, math.Pi)
+		}
+		if math.Abs(poleTheta) > math.Pi {
+			poleTheta = math.Mod(poleTheta, math.Pi)
+		}
+		oblique := NewObliqueProjection(nil, poleLat, poleLon, poleTheta)
+		x, y := oblique.TransformToOblique(lat, lon)
+		rlat, rlon := oblique.TransformFromOblique(x, y)
+		if !withinTolerance(lat, rlat, 0.00001) || !withinTolerance(lon, rlon, 0.00001) {
+			t.Errorf("expected %e,%e, got %e,%e", lat, lon, rlat, rlon)
+		}
+	})
+}*/
