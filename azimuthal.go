@@ -73,3 +73,45 @@ func (p LambertAzimuthal) Inverse(x float64, y float64) (float64, float64) {
 func (l LambertAzimuthal) PlanarBounds() Bounds {
 	return NewCircleBounds(1)
 }
+
+// An ancient projection in which all great cirlces are straight lines. Many use cases
+// but rapidly distorts the further away from the center of the projection.
+// https://en.wikipedia.org/wiki/Gnomonic_projection
+type Gnomonic struct{}
+
+func NewGnomonic() Gnomonic {
+	return Gnomonic{}
+}
+
+func (g Gnomonic) Project(latitude float64, longitude float64) (float64, float64) {
+	r := math.Tan(math.Pi/2 - latitude)
+	return r * math.Sin(longitude), -r * math.Cos(longitude)
+}
+
+func (g Gnomonic) Inverse(x float64, y float64) (float64, float64) {
+	return math.Pi/2 - math.Atan(math.Hypot(x, y)), math.Atan2(x, -y)
+}
+
+func (g Gnomonic) PlanarBounds() Bounds {
+	return NewRectangleBounds(4, 4)
+}
+
+// A projection of a hemisphere of a sphere as if viewed from an infinite distance away.
+// https://en.wikipedia.org/wiki/Orthographic_map_projection
+type Orthographic struct{}
+
+func NewOrthographic() Orthographic {
+	return Orthographic{}
+}
+
+func (o Orthographic) Project(latitude float64, longitude float64) (float64, float64) {
+	return math.Cos(latitude) * math.Sin(longitude), -math.Cos(latitude) * math.Cos(longitude)
+}
+
+func (o Orthographic) Inverse(x float64, y float64) (float64, float64) {
+	return math.Acos(math.Hypot(x, y)), math.Atan2(x, -y)
+}
+
+func (o Orthographic) PlanarBounds() Bounds {
+	return NewCircleBounds(1)
+}
