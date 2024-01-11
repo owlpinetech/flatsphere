@@ -70,17 +70,17 @@ Efforts are ongoing to improve the coverage of this property to more projections
 
 |Projection|Everywhere Floating-point Invertible|
 |----------|----------|
-|Mercator|:white-check-mark:|
-|Plate carrée|:white-check-mark:|
-|Equirectangular|:white-check-mark:|
-|Lambert cylindrical|:white-check-mark:|
-|Behrmann|:white-check-mark:|
-|Gall orthographic|:white-check-mark:|
-|Hobo-Dyer|:white-check-mark:|
-|Gall stereographic|:white-check-mark:|
-|Miller|:white-check-mark:|
-|Central|:white-check-mark:|
-|Sinusoidal|:white-check-mark:|
+|Mercator|:white_check_mark:|
+|Plate carrée|:white_check_mark:|
+|Equirectangular|:white_check_mark:|
+|Lambert cylindrical|:white_check_mark:|
+|Behrmann|:white_check_mark:|
+|Gall orthographic|:white_check_mark:|
+|Hobo-Dyer|:white_check_mark:|
+|Gall stereographic|:white_check_mark:|
+|Miller|:white_check_mark:|
+|Central|:white_check_mark:|
+|Sinusoidal|:white_check_mark:|
 |HEALPix| |
 |Mollweide| |
 |Stereographic| |
