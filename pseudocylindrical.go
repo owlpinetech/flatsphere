@@ -101,3 +101,31 @@ func (h Homolosine) Inverse(x float64, y float64) (lat float64, lon float64) {
 func (h Homolosine) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, math.Pi)
 }
+
+// An equal-area pseudocylindrical projection, in which the polar lines are half the size of the equator.
+// https://en.wikipedia.org/wiki/Eckert_IV_projection
+type EckertIV struct{}
+
+func NewEckertIV() EckertIV {
+	return EckertIV{}
+}
+
+func (e EckertIV) Project(latitude float64, longitude float64) (float64, float64) {
+	theta := newtonsMethod(latitude,
+		func(t float64) float64 { return t + math.Sin(2*t)/2 + 2*math.Sin(t) },
+		func(t float64) float64 { return 1 + math.Cos(2*t) + 2*math.Cos(t) },
+		1e-4, 1e-15, 125)
+	return longitude / math.Pi * (1 + math.Cos(theta)), math.Sin(theta)
+}
+
+func (e EckertIV) Inverse(x float64, y float64) (float64, float64) {
+	theta := math.Asin(y)
+	latNumer := theta + math.Sin(2*theta)/2 + 2*math.Sin(theta)
+	lat := math.Asin(latNumer / (2 + math.Pi/2))
+	lon := x / (1 + math.Cos(theta)) * math.Pi
+	return lat, lon
+}
+
+func (e EckertIV) PlanarBounds() Bounds {
+	return NewRectangleBounds(4, 2)
+}

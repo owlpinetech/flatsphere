@@ -21,59 +21,59 @@ func FuzzEquirectangularNegativeProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewEquirectangular(-45*math.Pi/180))
 }
 
-func FuzzLambertCylindrical(f *testing.F) {
+func FuzzLambertCylindricalProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewCylindricalEqualArea(0))
 }
 
-func FuzzBehrmann(f *testing.F) {
+func FuzzBehrmannProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewBehrmann())
 }
 
-func FuzzGallOrthographic(f *testing.F) {
+func FuzzGallOrthographicProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewGallOrthographic())
 }
 
-func FuzzHoboDyer(f *testing.F) {
+func FuzzHoboDyerProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewHoboDyer())
 }
 
-func FuzzGallStereographic(f *testing.F) {
+func FuzzGallStereographicProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewGallStereographic())
 }
 
-func FuzzMiller(f *testing.F) {
+func FuzzMillerProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewMiller())
 }
 
-func FuzzCentral(f *testing.F) {
+func FuzzCentralProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewCentral())
 }
 
-func FuzzSinusoidal(f *testing.F) {
+func FuzzSinusoidalProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewSinusoidal())
 }
 
-//func FuzzHEALPixStandard(f *testing.F) {
+//func FuzzHEALPixStandardProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewHEALPixStandard())
 //}
 
-//func FuzzMollweide(f *testing.F) {
+//func FuzzMollweideProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewMollweide())
 //}
 
-//func FuzzStereographic(f *testing.F) {
+//func FuzzStereographicProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewStereographic())
 //}
 
-//func FuzzPolar(f *testing.F) {
+//func FuzzPolarProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewPolar())
 //}
 
-//func FuzzLambertAzimuthal(f *testing.F) {
+//func FuzzLambertAzimuthalProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewLambertAzimuthal())
 //}
 
-//func FuzzTransverseMercator(f *testing.F) {
+//func FuzzTransverseMercatorProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewObliqueProjection(NewMercator(), 0, math.Pi/2, -math.Pi/2))
 //}
 
