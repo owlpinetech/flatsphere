@@ -61,6 +61,14 @@ func FuzzSinusoidalProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewMollweide())
 //}
 
+//func FuzzHomolosineProjectInverse(f *testing.F) {
+//	projectInverseFuzz(f, NewHomolosine())
+//}
+
+//func FuzzEckertIVProjectInverse(f *testing.F) {
+//	projectInverseFuzz(f, NewEckertIV())
+//}
+
 //func FuzzStereographicProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewStereographic())
 //}
@@ -76,6 +84,14 @@ func FuzzSinusoidalProjectInverse(f *testing.F) {
 //func FuzzTransverseMercatorProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewObliqueProjection(NewMercator(), 0, math.Pi/2, -math.Pi/2))
 //}
+
+func FuzzRobinsonProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewRobinsonProjection())
+}
+
+func FuzzNaturalEarthProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewNaturalEarthProjection())
+}
 
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {

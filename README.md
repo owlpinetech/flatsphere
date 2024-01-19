@@ -7,7 +7,7 @@ A [Go](https://go.dev/) library for converting between spherical and planar coor
 
 ## Prerequisites
 
-- **[Go](https://go.dev/)**: any one of the **three latest major** [releases](https://go.dev/doc/devel/release).
+- **[Go](https://go.dev/)**: requires [Go 1.21](https://go.dev/doc/devel/release#go1.21.0) or higher.
 
 ## Install
 
@@ -83,11 +83,15 @@ Efforts are ongoing to improve the coverage of this property to more projections
 |Sinusoidal|:white_check_mark:|
 |HEALPix| |
 |Mollweide| |
+|Homolosine| |
+|Eckert IV| |
 |Stereographic| |
 |Polar| |
 |Lambert azimuthal| |
 |Gnomonic| |
 |Orthographic| |
+|Robinson|:white_check_mark:|
+|Natural Earth|:white_check_mark:|
 
 ## Credits
 
