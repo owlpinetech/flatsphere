@@ -86,12 +86,16 @@ func FuzzSinusoidalProjectInverse(f *testing.F) {
 //}
 
 func FuzzRobinsonProjectInverse(f *testing.F) {
-	projectInverseFuzz(f, NewRobinsonProjection())
+	projectInverseFuzz(f, NewRobinson())
 }
 
 func FuzzNaturalEarthProjectInverse(f *testing.F) {
-	projectInverseFuzz(f, NewNaturalEarthProjection())
+	projectInverseFuzz(f, NewNaturalEarth())
 }
+
+//func FuzzEqualEarthProjectInverse(f *testing.F) {
+//	projectInverseFuzz(f, NewEqualEarth())
+//}
 
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {

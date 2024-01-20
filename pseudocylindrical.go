@@ -129,3 +129,38 @@ func (e EckertIV) Inverse(x float64, y float64) (float64, float64) {
 func (e EckertIV) PlanarBounds() Bounds {
 	return NewRectangleBounds(4, 2)
 }
+
+// An equal-area pseudocylindrical projection.
+// https://en.wikipedia.org/wiki/Equal_Earth_projection
+type EqualEarth struct{}
+
+var (
+	eeB      float64 = math.Sqrt(3) / 2
+	eeYscale float64 = equalEarthPoly(math.Pi/3) / (math.Pi / 3)
+)
+
+func NewEqualEarth() EqualEarth {
+	return EqualEarth{}
+}
+
+func equalEarthPoly(x float64) float64 {
+	return 0.003796*math.Pow(x, 9) + 0.000893*math.Pow(x, 7) - 0.081106*math.Pow(x, 3) + 1.340264*x
+}
+
+func equalEarthDeriv(x float64) float64 {
+	return 9*0.003796*math.Pow(x, 8) + 7*0.000893*math.Pow(x, 6) - 3*0.081106*math.Pow(x, 2) + 1.340264
+}
+
+func (e EqualEarth) Project(latitude float64, longitude float64) (float64, float64) {
+	theta := math.Asin(math.Sqrt(3) / 2 * math.Sin(latitude))
+	return math.Cos(theta) / eeB / equalEarthDeriv(theta) * longitude, equalEarthPoly(theta)
+}
+
+func (e EqualEarth) Inverse(x float64, y float64) (float64, float64) {
+	theta := newtonsMethod(y/eeYscale, equalEarthPoly, equalEarthDeriv, 1e-6, 1e-15, 125)
+	return math.Asin(math.Sin(theta) / eeB), x * eeB / math.Cos(theta) * equalEarthDeriv(theta)
+}
+
+func (e EqualEarth) PlanarBounds() Bounds {
+	return NewRectangleBounds(2*math.Pi, math.Pi)
+}

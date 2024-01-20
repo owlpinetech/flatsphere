@@ -94,11 +94,15 @@ func FuzzOrthographicProjectBounded(f *testing.F) {
 }
 
 func FuzzRobinsonProjectBounded(f *testing.F) {
-	projectionBoundedFuzz(f, NewRobinsonProjection())
+	projectionBoundedFuzz(f, NewRobinson())
 }
 
 func FuzzNaturalEarthProjectBounded(f *testing.F) {
-	projectionBoundedFuzz(f, NewNaturalEarthProjection())
+	projectionBoundedFuzz(f, NewNaturalEarth())
+}
+
+func FuzzEqualEarthProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewEqualEarth())
 }
 
 func projectionBoundedFuzz(f *testing.F, proj Projection) {
