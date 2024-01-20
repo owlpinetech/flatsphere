@@ -42,13 +42,13 @@ var (
 
 // Create a new Robinson projection, a well-known instance of a pseudocylindrical projection defined by a table of values.
 // https://en.wikipedia.org/wiki/Robinson_projection
-func NewRobinsonProjection() TabularProjection {
+func NewRobinson() TabularProjection {
 	return NewTabularProjection(robinsonNaturalEarthLatitudes, robinsonLengthRatios, robinsonDistRatios, 4, 0.5072)
 }
 
 // Create a new Natural Earth projection, a well-known instance of a pseudocylindrical projection defined by a table of values.
 // https://en.wikipedia.org/wiki/Natural_Earth_projection
-func NewNaturalEarthProjection() TabularProjection {
+func NewNaturalEarth() TabularProjection {
 	return NewTabularProjection(robinsonNaturalEarthLatitudes, naturalEarthLengthRatios, naturalEarthDistRatios, 4, 0.520)
 }
 
