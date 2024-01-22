@@ -53,9 +53,9 @@ func FuzzSinusoidalProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewSinusoidal())
 }
 
-//func FuzzHEALPixStandardProjectInverse(f *testing.F) {
-//	projectInverseFuzz(f, NewHEALPixStandard())
-//}
+func FuzzHEALPixStandardProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewHEALPixStandard())
+}
 
 //func FuzzMollweideProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewMollweide())
@@ -97,6 +97,10 @@ func FuzzNaturalEarthProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewEqualEarth())
 //}
 
+func FuzzCassiniProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewCassini())
+}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true
@@ -114,16 +118,19 @@ func projectInverseFuzz(f *testing.F, proj Projection) {
 	f.Add(math.Pi/2, math.Pi)
 	f.Add(66.0, 0.0)
 	f.Fuzz(func(t *testing.T, lat float64, lon float64) {
-		if math.Abs(lat) > math.Pi/2 {
-			lat = math.Mod(lat, math.Pi/2)
-		}
-		if math.Abs(lon) > math.Pi {
-			lon = math.Mod(lon, math.Pi)
-		}
+		lat = math.Mod(lat, math.Pi/2)
+		lon = math.Mod(lon, math.Pi)
 		x, y := proj.Project(lat, lon)
 		rlat, rlon := proj.Inverse(x, y)
-		if !withinTolerance(lat, rlat, 0.00001) || !withinTolerance(lon, rlon, 0.00001) {
-			t.Errorf("expected %e,%e, got %e,%e", lat, lon, rlat, rlon)
+
+		if withinTolerance(lat, math.Pi/2, 0.0000001) || withinTolerance(lat, -math.Pi/2, 0.0000001) {
+			if !withinTolerance(lat, rlat, 0.000001) {
+				t.Errorf("expected lat %e, but got %e", lat, rlat)
+			}
+		} else {
+			if !withinTolerance(lat, rlat, 0.00001) || !withinTolerance(lon, rlon, 0.00001) {
+				t.Errorf("expected %e,%e, got %e,%e", lat, lon, rlat, rlon)
+			}
 		}
 	})
 }

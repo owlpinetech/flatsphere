@@ -64,7 +64,7 @@ Determine how representative of reality a projection is at a point on the sphere
 
 A list of the predefined projections supported by the package.
 
-**Invertability**: all projections in this library have a well defined inverse function. However, only some of them reasonably satisfy the invertability property `x = f_1(f(x))` due to floating-point error in computations, edge-cases resulting in infinities or NaNs, or ambiguity at some type of critical point (commonly the poles or prime meridian). The table below checks of *invertible* for all projections which satisfy the `x = f_1(f(x))` property for all valid spherical locations to a reasonably fine degree of precision, referred to here as **everywhere floating-point invertible**. Oblique transforms of floating-point invertible standard projections do not necessarily share that property.
+**Invertability**: all projections in this library have a well defined inverse function. However, only some of them reasonably satisfy the invertability property `x = f_1(f(x))` due to floating-point error in computations, edge-cases resulting in infinities or NaNs, or ambiguity at some type of critical point (commonly the poles or prime meridian). The table below checks of *invertible* for all projections which satisfy the `x = f_1(f(x))` property for all valid spherical locations **except the poles** to a reasonably fine degree of precision, referred to here as **everywhere floating-point invertible**. Oblique transforms of floating-point invertible standard projections do not necessarily share that property.
 
 Efforts are ongoing to improve the coverage of this property to more projections where possible.
 
@@ -81,7 +81,7 @@ Efforts are ongoing to improve the coverage of this property to more projections
 |Miller|:white_check_mark:|
 |Central|:white_check_mark:|
 |Sinusoidal|:white_check_mark:|
-|HEALPix| |
+|HEALPix|:white_check_mark:|
 |Mollweide| |
 |Homolosine| |
 |Eckert IV| |
@@ -92,6 +92,7 @@ Efforts are ongoing to improve the coverage of this property to more projections
 |Orthographic| |
 |Robinson|:white_check_mark:|
 |Natural Earth|:white_check_mark:|
+|Cassini|:white_check_mark:|
 
 ## Credits
 

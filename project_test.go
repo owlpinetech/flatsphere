@@ -60,6 +60,33 @@ func TestMercatorInverseSanity(t *testing.T) {
 	})
 }
 
+func TestCassiniProjectSanity(t *testing.T) {
+	checkProject(t, "cassini", NewCassini(), []projectTestCase{
+		{0, 0, 0, 0},
+		{0, math.Pi, 0, math.Pi},
+		{0, math.Pi / 2, math.Pi / 2, 0},
+		{math.Pi / 4, 0, 0, math.Pi / 4},
+		{-math.Pi / 4, 0, 0, -math.Pi / 4},
+		{math.Pi / 2, 0, 0, math.Pi / 2},
+		{-math.Pi / 2, 0, 0, -math.Pi / 2},
+		{math.Pi / 2, -math.Pi, 0, math.Pi / 2},
+		{-math.Pi / 2, math.Pi, 0, -math.Pi / 2},
+	})
+}
+
+func TestCassiniInverseSanity(t *testing.T) {
+	checkInverse(t, "invCassini", NewCassini(), []inverseTestCase{
+		{0, 0, 0, 0},
+		{0, math.Pi, 0, math.Pi},
+		{math.Pi / 2, 0, 0, math.Pi / 2},
+		{0, math.Pi / 4, math.Pi / 4, 0},
+		{0, -math.Pi / 4, -math.Pi / 4, 0},
+		{0, math.Pi / 2, math.Pi / 2, 0},
+		{0, -math.Pi / 2, -math.Pi / 2, 0},
+		{math.Pi / 2, math.Pi, 0, math.Pi / 2},
+	})
+}
+
 /*func TestTransverseMercatorProjectSanity(t *testing.T) {
 	xFrom := func(lat, lon float64) float64 {
 		return math.Log((1+math.Sin(lon)*math.Cos(lat))/(1-math.Sin(lon)*math.Cos(lat))) / 2

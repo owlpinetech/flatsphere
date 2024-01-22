@@ -1,6 +1,8 @@
 package flatsphere
 
-import "math"
+import (
+	"math"
+)
 
 // An early standard cylindrical projection useful for navigation.
 // https://en.wikipedia.org/wiki/Mercator_projection
@@ -200,4 +202,28 @@ func (c Central) Inverse(x float64, y float64) (lat float64, lon float64) {
 
 func (c Central) PlanarBounds() Bounds {
 	return NewRectangleBounds(2*math.Pi, 2*math.Pi)
+}
+
+// A transverse version of the Plate–Carée projection, implemented directly for efficiency.
+// https://en.wikipedia.org/wiki/Cassini_projection
+type Cassini struct{}
+
+func NewCassini() Cassini {
+	return Cassini{}
+}
+
+func (c Cassini) Project(lat float64, lon float64) (float64, float64) {
+	x := math.Asin(math.Cos(lat) * math.Sin(lon))
+	y := math.Atan2(math.Sin(lat), math.Cos(lat)*math.Cos(lon))
+	return x, y
+}
+
+func (c Cassini) Inverse(x float64, y float64) (float64, float64) {
+	lat := math.Asin(math.Cos(x) * math.Sin(y))
+	lon := math.Atan2(math.Sin(x), math.Cos(x)*math.Cos(y))
+	return lat, lon
+}
+
+func (c Cassini) PlanarBounds() Bounds {
+	return NewRectangleBounds(math.Pi, 2*math.Pi)
 }

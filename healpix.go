@@ -48,7 +48,7 @@ func (h HEALPixStandard) Inverse(x float64, y float64) (float64, float64) {
 		lon := facetX + (x-facetX)/sigma
 		return lat, lon
 	} else {
-		return math.Copysign(math.Pi/2, y), -math.Pi
+		return math.Copysign(math.Pi/2, y), x
 	}
 }
 
