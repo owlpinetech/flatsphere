@@ -114,8 +114,10 @@ func (o ObliqueProjection) TransformToOblique(latitude float64, longitude float6
 	newLat := math.Asin(preAsin)
 	var newLon float64
 	inner := math.Sin(latitude)/o.cosPoleLat/math.Cos(newLat) - math.Tan(o.poleLat)*math.Tan(newLat)
-	if o.poleLat == -math.Pi/2 {
-		newLon = o.poleLon + rotateLon
+	if o.poleLat == math.Pi/2 {
+		newLon = rotateLon + o.poleLon
+	} else if o.poleLat == -math.Pi/2 {
+		newLon = -rotateLon + o.poleLon + math.Pi
 	} else if math.Abs(inner) > 1 {
 		if (rotateLon == 0 && latitude < -o.poleLat) || (rotateLon != 0 && latitude < o.poleLat) {
 			newLon = o.poleLon + math.Pi

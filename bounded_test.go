@@ -81,10 +81,6 @@ func FuzzLambertAzimuthalProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewLambertAzimuthal())
 }
 
-//func FuzzTransverseMercatorProjectBounded(f *testing.F) {
-//	projectionBoundedFuzz(f, NewObliqueProjection(NewMercator(), 0, math.Pi/2, -math.Pi/2))
-//}
-
 //func FuzzGnomonicProjectBounded(f *testing.F) {
 //	projectionBoundedFuzz(f, NewGnomonic())
 //}
@@ -103,6 +99,14 @@ func FuzzNaturalEarthProjectBounded(f *testing.F) {
 
 func FuzzEqualEarthProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewEqualEarth())
+}
+
+func FuzzCassiniProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewCassini())
+}
+
+func FuzzTransversePlateCarreeProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewObliqueProjection(NewPlateCarree(), 0, math.Pi/2, -math.Pi/2))
 }
 
 func projectionBoundedFuzz(f *testing.F, proj Projection) {
