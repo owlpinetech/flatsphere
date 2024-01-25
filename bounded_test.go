@@ -109,6 +109,10 @@ func FuzzTransversePlateCarreeProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewObliqueProjection(NewPlateCarree(), 0, math.Pi/2, -math.Pi/2))
 }
 
+func FuzzAitoffProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewAitoff())
+}
+
 func projectionBoundedFuzz(f *testing.F, proj Projection) {
 	f.Add(0.0, 0.0)
 	f.Add(0.0, math.Pi)

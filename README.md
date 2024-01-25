@@ -93,6 +93,7 @@ Efforts are ongoing to improve the coverage of this property to more projections
 |Robinson|:white_check_mark:|
 |Natural Earth|:white_check_mark:|
 |Cassini|:white_check_mark:|
+|Aitoff| |
 
 ## Credits
 
