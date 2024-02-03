@@ -94,6 +94,7 @@ Efforts are ongoing to improve the coverage of this property to more projections
 |Natural Earth|:white_check_mark:|
 |Cassini|:white_check_mark:|
 |Aitoff| |
+|Hammer| |
 
 ## Credits
 
