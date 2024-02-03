@@ -105,6 +105,10 @@ func FuzzAitoffProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewAitoff())
 }
 
+func FuzzHammerProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewHammer())
+}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true

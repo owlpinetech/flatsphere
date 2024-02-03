@@ -113,6 +113,10 @@ func FuzzAitoffProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewAitoff())
 }
 
+func FuzzHammerProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewHammer())
+}
+
 func projectionBoundedFuzz(f *testing.F, proj Projection) {
 	f.Add(0.0, 0.0)
 	f.Add(0.0, math.Pi)

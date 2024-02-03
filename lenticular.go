@@ -29,3 +29,36 @@ func (ai Aitoff) Inverse(x float64, y float64) (float64, float64) {
 func (a Aitoff) PlanarBounds() Bounds {
 	return NewEllipseBounds(math.Pi, math.Pi/2)
 }
+
+// An elliptical equal-area projection.
+// https://en.wikipedia.org/wiki/Hammer_projection
+type Hammer struct{}
+
+func NewHammer() Hammer {
+	return Hammer{}
+}
+
+func (h Hammer) Project(lat float64, lon float64) (float64, float64) {
+	z := math.Sqrt(1 + math.Cos(lat)*math.Cos(lon/2))
+	x := 2 * math.Cos(lat) * math.Sin(lon/2) / z
+	y := math.Sin(lat) / z
+	return x, y
+}
+
+func (h Hammer) Inverse(x float64, y float64) (float64, float64) {
+	z := math.Sqrt(1 - x*x/8 - y*y/2)
+	shift := 0.0
+	if math.Hypot(x/2, y) > 1 {
+		shift = 2 * math.Pi
+		if math.Signbit(x) {
+			shift = -shift
+		}
+	}
+	lat := math.Asin(z * y * math.Sqrt2)
+	lon := 2*math.Atan(math.Sqrt(0.5)*z*x/(2*z*z-1)) + shift
+	return lat, lon
+}
+
+func (h Hammer) PlanarBounds() Bounds {
+	return NewEllipseBounds(2, 1)
+}
