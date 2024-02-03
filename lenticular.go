@@ -1,6 +1,8 @@
 package flatsphere
 
-import "math"
+import (
+	"math"
+)
 
 // A compromise azimuthal projection stretched into an elliptical shape.
 // https://en.wikipedia.org/wiki/Aitoff_projection
@@ -54,7 +56,14 @@ func (h Hammer) Inverse(x float64, y float64) (float64, float64) {
 			shift = -shift
 		}
 	}
-	lat := math.Asin(z * y * math.Sqrt2)
+	preAsin := z * y * math.Sqrt2
+	if preAsin > 1 && preAsin < 1+1e-9 {
+		preAsin = 1
+	}
+	if preAsin < -1 && preAsin > -1-1e-9 {
+		preAsin = -1
+	}
+	lat := math.Asin(preAsin)
 	lon := 2*math.Atan(math.Sqrt(0.5)*z*x/(2*z*z-1)) + shift
 	return lat, lon
 }

@@ -1,7 +1,6 @@
 package flatsphere
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -64,9 +63,6 @@ func (p LambertAzimuthal) Project(latitude float64, longitude float64) (float64,
 func (p LambertAzimuthal) Inverse(x float64, y float64) (float64, float64) {
 	r := math.Hypot(x, y)
 	rLat, rLon := math.Asin(1-2*r*r), math.Atan2(x, -y)
-	if math.IsNaN(rLat) {
-		fmt.Printf("nan lat: r = %e, x = %e, y = %e, presin = %e, valid = %v\n", r, x, y, 1-2*r*r, 1-2*r*r < -1)
-	}
 	return rLat, rLon
 }
 
