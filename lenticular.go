@@ -71,3 +71,46 @@ func (h Hammer) Inverse(x float64, y float64) (float64, float64) {
 func (h Hammer) PlanarBounds() Bounds {
 	return NewEllipseBounds(2, 1)
 }
+
+// A circular conformal projection of the whole earth.
+type Lagrange struct{}
+
+func NewLagrange() Lagrange {
+	return Lagrange{}
+}
+
+func (l Lagrange) Project(lat float64, lon float64) (float64, float64) {
+	p := (1 + math.Sin(lat)) / (1 - math.Sin(lat))
+	v := math.Pow(p, 0.25)
+	c := (v+1/v)/2 + math.Cos(lon/2)
+	if math.IsInf(c, 0) {
+		if math.Signbit(lat) {
+			return 0, -1
+		} else {
+			return 0, 1
+		}
+	}
+	x := math.Sin(lon/2) / c
+	y := (v - 1/v) / (2 * c)
+	return x, y
+}
+
+func (l Lagrange) Inverse(x float64, y float64) (float64, float64) {
+	r2 := x*x + y*y
+	th := 2 * y / (1 + r2)
+	if th == 1 {
+		if math.Signbit(y) {
+			return -math.Pi / 2, 0
+		} else {
+			return math.Pi / 2, 0
+		}
+	}
+	t := math.Pow((1+th)/(1-th), 2)
+	lat := math.Asin((t - 1) / (t + 1))
+	lon := 2 * math.Atan2(2*x, 1-r2)
+	return lat, lon
+}
+
+func (l Lagrange) PlanarBounds() Bounds {
+	return NewCircleBounds(1)
+}

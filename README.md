@@ -95,6 +95,7 @@ Efforts are ongoing to improve the coverage of this property to more projections
 |Cassini|:white_check_mark:|
 |Aitoff| |
 |Hammer| |
+|Lagrange|:white_check_mark:|
 
 ## Credits
 

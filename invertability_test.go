@@ -109,6 +109,10 @@ func FuzzCassiniProjectInverse(f *testing.F) {
 //	projectInverseFuzz(f, NewHammer())
 //}
 
+func FuzzLagrangeProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewLagrange())
+}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true

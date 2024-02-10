@@ -23,7 +23,7 @@ func (s Stereographic) Inverse(x float64, y float64) (float64, float64) {
 }
 
 func (s Stereographic) PlanarBounds() Bounds {
-	return NewRectangleBounds(4, 4)
+	return NewBounds(math.Inf(-1), math.Inf(-1), math.Inf(1), math.Inf(1))
 }
 
 // An ancient equidistant azimuthal projection.

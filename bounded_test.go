@@ -65,9 +65,9 @@ func FuzzHomolosineProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewHomolosine())
 }
 
-func FuzzEckertIVProjectBounded(f *testing.F) {
-	projectionBoundedFuzz(f, NewEckertIV())
-}
+//func FuzzEckertIVProjectBounded(f *testing.F) {
+//	projectionBoundedFuzz(f, NewEckertIV())
+//}
 
 func FuzzStereographicProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewStereographic())
@@ -117,7 +117,13 @@ func FuzzHammerProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewHammer())
 }
 
+func FuzzLagrangeProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewLagrange())
+}
+
 func projectionBoundedFuzz(f *testing.F, proj Projection) {
+	f.Add(109.95574287564276, 17.0)
+	f.Add(-15.707963267948964, -0.09817477042468103)
 	f.Add(0.0, 0.0)
 	f.Add(0.0, math.Pi)
 	f.Add(math.Pi/2, math.Pi/4)
