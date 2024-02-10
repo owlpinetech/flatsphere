@@ -31,6 +31,17 @@ func (b Bounds) Within(x float64, y float64) bool {
 		y <= b.YMax
 }
 
+// Construct a new bounding area from the minimum and maximum along each of the two axes.
+// The center point will be a position halfway between the minimum and maximum.
+func NewBounds(xmin, ymin, xmax, ymax float64) Bounds {
+	return Bounds{
+		XMin: xmin,
+		YMin: ymin,
+		XMax: xmax,
+		YMax: ymax,
+	}
+}
+
 // Construct a bounding area containing the circle described by the given
 // radius, centered on the origin.
 func NewCircleBounds(radius float64) Bounds {

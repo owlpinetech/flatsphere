@@ -101,6 +101,18 @@ func FuzzCassiniProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewCassini())
 }
 
+//func FuzzAitoffProjectInverse(f *testing.F) {
+//	projectInverseFuzz(f, NewAitoff())
+//}
+
+//func FuzzHammerProjectInverse(f *testing.F) {
+//	projectInverseFuzz(f, NewHammer())
+//}
+
+func FuzzLagrangeProjectInverse(f *testing.F) {
+	projectInverseFuzz(f, NewLagrange())
+}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true
@@ -125,7 +137,7 @@ func projectInverseFuzz(f *testing.F, proj Projection) {
 
 		if withinTolerance(lat, math.Pi/2, 0.0000001) || withinTolerance(lat, -math.Pi/2, 0.0000001) {
 			if !withinTolerance(lat, rlat, 0.000001) {
-				t.Errorf("expected lat %e, but got %e", lat, rlat)
+				t.Errorf("expected lat %e, but got %e from %e, %e", lat, rlat, x, y)
 			}
 		} else {
 			if !withinTolerance(lat, rlat, 0.00001) || !withinTolerance(lon, rlon, 0.00001) {

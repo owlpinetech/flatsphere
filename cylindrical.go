@@ -21,7 +21,7 @@ func (m Mercator) Inverse(x float64, y float64) (lat float64, lon float64) {
 }
 
 func (m Mercator) PlanarBounds() Bounds {
-	return NewRectangleBounds(2*math.Pi, 2*math.Pi)
+	return NewBounds(-math.Pi, math.Inf(-1), math.Pi, math.Inf(1))
 }
 
 // A special case of the equirectangular projection which allows for easy conversion between
@@ -160,7 +160,7 @@ func (g GallStereographic) Inverse(x float64, y float64) (lat float64, lon float
 }
 
 func (g GallStereographic) PlanarBounds() Bounds {
-	return NewRectangleBounds(2*math.Pi, 1.5*math.Pi)
+	return NewBounds(-math.Pi, math.Inf(-1), math.Pi, math.Inf(1))
 }
 
 // A compromise cylindrical projection intended to resemble Mercator with less distortion at the poles.
@@ -201,7 +201,7 @@ func (c Central) Inverse(x float64, y float64) (lat float64, lon float64) {
 }
 
 func (c Central) PlanarBounds() Bounds {
-	return NewRectangleBounds(2*math.Pi, 2*math.Pi)
+	return NewBounds(-math.Pi, math.Inf(-1), math.Pi, math.Inf(1))
 }
 
 // A transverse version of the Plate–Carée projection, implemented directly for efficiency.

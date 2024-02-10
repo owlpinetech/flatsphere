@@ -4,8 +4,7 @@ import (
 	"math"
 )
 
-type ObliqueProjection struct {
-	orig      Projection
+type ObliqueAspect struct {
 	poleLat   float64
 	poleLon   float64
 	poleTheta float64
@@ -14,9 +13,8 @@ type ObliqueProjection struct {
 	cosPoleLat float64 // cached precompute of cos(poleLat)
 }
 
-func NewObliqueProjection(original Projection, poleLat float64, poleLon float64, poleTheta float64) ObliqueProjection {
-	return ObliqueProjection{
-		orig:       original,
+func NewObliqueAspect(poleLat float64, poleLon float64, poleTheta float64) ObliqueAspect {
+	return ObliqueAspect{
 		poleLat:    poleLat,
 		poleLon:    poleLon,
 		poleTheta:  poleTheta,
@@ -25,22 +23,10 @@ func NewObliqueProjection(original Projection, poleLat float64, poleLon float64,
 	}
 }
 
-func (o ObliqueProjection) Project(latitude float64, longitude float64) (float64, float64) {
-	return o.orig.Project(o.TransformFromOblique(latitude, longitude))
-}
-
-func (o ObliqueProjection) Inverse(x float64, y float64) (float64, float64) {
-	return o.TransformToOblique(o.orig.Inverse(x, y))
-}
-
-func (o ObliqueProjection) PlanarBounds() Bounds {
-	return o.orig.PlanarBounds()
-}
-
 // Applies the pole shift and rotation of the Oblique projection transform to the given
 // input latitude and longitude points, so that the returned latitude/longitude are able
 // to be used for the non-transformed 'original' projection.
-func (o ObliqueProjection) TransformFromOblique(latitude float64, longitude float64) (float64, float64) {
+func (o ObliqueAspect) TransformFromOblique(latitude float64, longitude float64) (float64, float64) {
 	var newLat, newLon float64
 
 	poleRelCos := math.Cos(o.poleLon - longitude)
@@ -101,7 +87,7 @@ func coerceAngle(angle float64) float64 {
 // Given a latitude/longitude in the non-transformed 'original' projection space, applies
 // the pole shift and rotation of the Oblique projection so that the returned latitude/longitude
 // are in the Oblique projection space.
-func (o ObliqueProjection) TransformToOblique(latitude float64, longitude float64) (float64, float64) {
+func (o ObliqueAspect) TransformToOblique(latitude float64, longitude float64) (float64, float64) {
 	rotateLon := longitude + o.poleTheta
 
 	preAsin := o.sinPoleLat*math.Sin(latitude) - o.cosPoleLat*math.Cos(latitude)*math.Cos(rotateLon)
@@ -134,4 +120,28 @@ func (o ObliqueProjection) TransformToOblique(latitude float64, longitude float6
 		newLon = coerceAngle(newLon)
 	}
 	return newLat, newLon
+}
+
+type ObliqueProjection struct {
+	orig Projection
+	ObliqueAspect
+}
+
+func NewObliqueProjection(original Projection, poleLat float64, poleLon float64, poleTheta float64) ObliqueProjection {
+	return ObliqueProjection{
+		original,
+		NewObliqueAspect(poleLat, poleLon, poleTheta),
+	}
+}
+
+func (o ObliqueProjection) Project(latitude float64, longitude float64) (float64, float64) {
+	return o.orig.Project(o.TransformFromOblique(latitude, longitude))
+}
+
+func (o ObliqueProjection) Inverse(x float64, y float64) (float64, float64) {
+	return o.TransformToOblique(o.orig.Inverse(x, y))
+}
+
+func (o ObliqueProjection) PlanarBounds() Bounds {
+	return o.orig.PlanarBounds()
 }
