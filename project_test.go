@@ -87,6 +87,16 @@ func TestCassiniInverseSanity(t *testing.T) {
 	})
 }
 
+func TestEisenlohrProjectSanity(t *testing.T) {
+	checkProject(t, "eisenlohr", NewEisenlohr(), []projectTestCase{
+		{0, 0, 0, 0},
+		{math.Pi / 2, 0, 0, 1 - math.Pi/4},
+		{-math.Pi / 2, 0, 0, -(1 - math.Pi/4)},
+		{0, math.Pi, math.Sqrt2 + math.Log(math.Sqrt2-1), 0},
+		{0, -math.Pi, -(math.Sqrt2 + math.Log(math.Sqrt2-1)), 0},
+	})
+}
+
 /*func TestTransverseMercatorProjectSanity(t *testing.T) {
 	xFrom := func(lat, lon float64) float64 {
 		return math.Log((1+math.Sin(lon)*math.Cos(lat))/(1-math.Sin(lon)*math.Cos(lat))) / 2

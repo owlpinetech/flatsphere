@@ -2,6 +2,7 @@ package flatsphere
 
 import (
 	"math"
+	"math/cmplx"
 )
 
 // A compromise azimuthal projection stretched into an elliptical shape.
@@ -113,4 +114,51 @@ func (l Lagrange) Inverse(x float64, y float64) (float64, float64) {
 
 func (l Lagrange) PlanarBounds() Bounds {
 	return NewCircleBounds(1)
+}
+
+// A conformal projection with minimum overall scale variation.
+type Eisenlohr struct{}
+
+func NewEisenlohr() Eisenlohr {
+	return Eisenlohr{}
+}
+
+func (e Eisenlohr) Project(lat float64, lon float64) (float64, float64) {
+	if math.Abs(lat) == math.Pi/2 {
+		if math.Signbit(lat) {
+			return 0, -(1 - math.Pi/4)
+		} else {
+			return 0, 1 - math.Pi/4
+		}
+	}
+
+	w := complex(lon, math.Log(math.Tan(math.Pi/4+math.Abs(lat)/2)))
+	v := (cmplx.Tan(w/4.0-math.Pi/8) - 1) / -math.Sqrt2
+	z := cmplx.Log(v) + ((1/v - v) / math.Sqrt2)
+	if math.Signbit(lat) {
+		return real(z), -imag(z)
+	}
+	return real(z), imag(z)
+
+	/*m := math.Tan(math.Pi/4 - lat/2)
+	u := complex(m*math.Cos(lon), m*math.Sin(lon))
+	b := cmplx.Atan((1 - u) / (1 + u + 2*cmplx.Sqrt(2*u)))
+	p := complex(0, 1) * (math.Sqrt2*cmplx.Sin(b) - b)
+	return real(p), imag(p)*/
+}
+
+func (e Eisenlohr) Inverse(x float64, y float64) (float64, float64) {
+	z := complex(x, y)
+	v := newtonsMethodCmplx(
+		z,
+		func(t complex128) complex128 { return cmplx.Log(t) + (((1 / t) - t) / math.Sqrt2) },
+		func(t complex128) complex128 { return (1 / t) + ((-cmplx.Pow(t, -2) - 1) / math.Sqrt2) },
+		1e-4, 1e-15, 125,
+	)
+	w := (cmplx.Atan(v*math.Sqrt2-1) - math.Pi/8) * -4
+	return math.Atan(math.Sinh(imag(w))), real(w)
+}
+
+func (e Eisenlohr) PlanarBounds() Bounds {
+	return NewEllipseBounds(math.Sqrt2+math.Log(math.Sqrt2-1), 1-math.Pi/4)
 }

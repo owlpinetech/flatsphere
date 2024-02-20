@@ -1,6 +1,9 @@
 package flatsphere
 
-import "math"
+import (
+	"math"
+	"math/cmplx"
+)
 
 // Try to find a root of the given target function. Returns NaN if the process fails.
 func newtonsMethod(
@@ -29,6 +32,32 @@ func newtonsMethod(
 		currentGuess = nextGuess
 	}
 	return math.NaN()
+}
+
+func newtonsMethodCmplx(
+	initialGuess complex128,
+	targetFunc func(complex128) complex128,
+	derivative func(complex128) complex128,
+	tolerance float64,
+	epsilon float64,
+	maxIterations int,
+) complex128 {
+	currentGuess := initialGuess
+	for i := 0; i < maxIterations; i++ {
+		y := targetFunc(currentGuess)
+		yPrime := derivative(currentGuess)
+
+		if cmplx.Abs(yPrime) < epsilon {
+			break
+		}
+
+		nextGuess := currentGuess - y/yPrime
+		if cmplx.Abs(nextGuess-currentGuess) < tolerance {
+			return nextGuess
+		}
+		currentGuess = nextGuess
+	}
+	return cmplx.NaN()
 }
 
 // Given a table of x,y values representing points on a function, Aitken interpolation approximates

@@ -121,6 +121,10 @@ func FuzzLagrangeProjectBounded(f *testing.F) {
 	projectionBoundedFuzz(f, NewLagrange())
 }
 
+func FuzzEisenlohrProjectBounded(f *testing.F) {
+	projectionBoundedFuzz(f, NewEisenlohr())
+}
+
 func projectionBoundedFuzz(f *testing.F, proj Projection) {
 	f.Add(109.95574287564276, 17.0)
 	f.Add(-15.707963267948964, -0.09817477042468103)
