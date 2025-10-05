@@ -23,7 +23,12 @@ func (s Stereographic) Inverse(x float64, y float64) (float64, float64) {
 }
 
 func (s Stereographic) PlanarBounds() Bounds {
-	return NewBounds(math.Inf(-1), math.Inf(-1), math.Inf(1), math.Inf(1))
+	return RectangleBounds{
+		XMin: math.Inf(-1),
+		YMin: math.Inf(-1),
+		XMax: math.Inf(1),
+		YMax: math.Inf(1),
+	}
 }
 
 // An ancient equidistant azimuthal projection.
@@ -163,6 +168,8 @@ func (p VerticalPerspective) PlanarBounds() Bounds {
 	return NewCircleBounds(math.Sqrt((p.D - 1) / (p.D + 1)))
 }
 
+// A projection of that mimics the actual appearance of the sphere from a fixed viewing distance, centered at the given
+// latitude and longitude. Could be equivalently represented using an oblique transform of VerticalPerspective, but this is more efficient.
 type ObliqueVerticalPerspective struct {
 	CameraLat float64
 	CameraLon float64

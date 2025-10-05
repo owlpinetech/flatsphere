@@ -53,7 +53,7 @@ func (h HEALPixStandard) Inverse(x float64, y float64) (float64, float64) {
 }
 
 func (h HEALPixStandard) PlanarBounds() Bounds {
-	return Bounds{
+	return RectangleBounds{
 		XMin: -math.Pi,
 		XMax: math.Pi,
 		YMin: -math.Pi / 2,

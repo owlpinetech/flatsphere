@@ -21,7 +21,12 @@ func (m Mercator) Inverse(x float64, y float64) (lat float64, lon float64) {
 }
 
 func (m Mercator) PlanarBounds() Bounds {
-	return NewBounds(-math.Pi, math.Inf(-1), math.Pi, math.Inf(1))
+	return RectangleBounds{
+		XMin: -math.Pi,
+		YMin: math.Inf(-1),
+		XMax: math.Pi,
+		YMax: math.Inf(1),
+	}
 }
 
 // A special case of the equirectangular projection which allows for easy conversion between
@@ -92,11 +97,11 @@ func (l CylindricalEqualArea) Parallel() float64 {
 }
 
 func (l CylindricalEqualArea) Project(lat float64, lon float64) (x float64, y float64) {
-	return lon, math.Sin(lat) * l.PlanarBounds().YMax
+	return lon, math.Sin(lat) * (1 / l.Stretch)
 }
 
 func (l CylindricalEqualArea) Inverse(x float64, y float64) (lat float64, lon float64) {
-	return math.Asin(y / l.PlanarBounds().YMax), x
+	return math.Asin(y / (1 / l.Stretch)), x
 }
 
 func (l CylindricalEqualArea) PlanarBounds() Bounds {
@@ -160,7 +165,12 @@ func (g GallStereographic) Inverse(x float64, y float64) (lat float64, lon float
 }
 
 func (g GallStereographic) PlanarBounds() Bounds {
-	return NewBounds(-math.Pi, math.Inf(-1), math.Pi, math.Inf(1))
+	return RectangleBounds{
+		XMin: -math.Pi,
+		YMin: math.Inf(-1),
+		XMax: math.Pi,
+		YMax: math.Inf(1),
+	}
 }
 
 // A compromise cylindrical projection intended to resemble Mercator with less distortion at the poles.
@@ -201,7 +211,12 @@ func (c Central) Inverse(x float64, y float64) (lat float64, lon float64) {
 }
 
 func (c Central) PlanarBounds() Bounds {
-	return NewBounds(-math.Pi, math.Inf(-1), math.Pi, math.Inf(1))
+	return RectangleBounds{
+		XMin: -math.Pi,
+		YMin: math.Inf(-1),
+		XMax: math.Pi,
+		YMax: math.Inf(1),
+	}
 }
 
 // A transverse version of the Plate–Carée projection, implemented directly for efficiency.

@@ -10,22 +10,14 @@ func TestBoundsProperties(t *testing.T) {
 		bounds Bounds
 		width  float64
 		height float64
-		xmax   float64
-		ymax   float64
 	}{
-		{"Circle", NewCircleBounds(1.0), 2.0, 2.0, 1.0, 1.0},
-		{"Ellipse", NewEllipseBounds(2.0, 3.0), 4.0, 6.0, 2.0, 3.0},
-		{"Rectangle", NewRectangleBounds(5.0, 1.0), 5.0, 1.0, 2.5, 0.5},
+		{"Circle", NewCircleBounds(1.0), 2.0, 2.0},
+		{"Ellipse", NewEllipseBounds(2.0, 3.0), 4.0, 6.0},
+		{"Rectangle", NewRectangleBounds(5.0, 1.0), 5.0, 1.0},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			if !withinTolerance(tc.bounds.XMax, tc.xmax, 0.000001) {
-				t.Errorf("expected xmax %f, got %f", tc.xmax, tc.bounds.XMax)
-			}
-			if !withinTolerance(tc.bounds.YMax, tc.ymax, 0.000001) {
-				t.Errorf("expected ymax %f, got %f", tc.ymax, tc.bounds.YMax)
-			}
 			if !withinTolerance(tc.bounds.Width(), tc.width, 0.000001) {
 				t.Errorf("expected width %f, got %f", tc.width, tc.bounds.Width())
 			}
