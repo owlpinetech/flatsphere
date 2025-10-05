@@ -87,6 +87,34 @@ func TestCassiniInverseSanity(t *testing.T) {
 	})
 }
 
+func TestPerspectiveProjectSanity(t *testing.T) {
+	checkProject(t, "perspective", NewVerticalPerspective(6), []projectTestCase{
+		{0, 0, 0, 0},
+		{math.Pi / 2, 0, 0, 5.0 / 6.0},
+		{math.Pi / 4, 0, 0, (5.0 / (6.0 - math.Sqrt(2)/2)) * (math.Sqrt(2) / 2)},
+		{0, math.Pi / 2, 5.0 / 6.0, 0},
+	})
+	checkProject(t, "obliquePerspective(0, 0)", NewObliqueVerticalPerspective(0, 0, 6), []projectTestCase{
+		{0, 0, 0, 0},
+		{math.Pi / 2, 0, 0, 5.0 / 6.0},
+		{math.Pi / 4, 0, 0, (5.0 / (6.0 - math.Sqrt(2)/2)) * (math.Sqrt(2) / 2)},
+		{0, math.Pi / 2, 5.0 / 6.0, 0},
+	})
+}
+
+func TestPerspectiveInverseSanity(t *testing.T) {
+	checkInverse(t, "invPerspective", NewVerticalPerspective(6), []inverseTestCase{
+		{0, 0, 0, 0},
+		{0, (5.0 / (6.0 - math.Sqrt(2)/2)) * (math.Sqrt(2) / 2), math.Pi / 4, 0},
+		{(5.0 / (6.0 - math.Sqrt(2)/2)) * (math.Sqrt(2) / 2), 0, 0, math.Pi / 4},
+	})
+	checkInverse(t, "invObliquePerspective(0,0)", NewObliqueVerticalPerspective(0, 0, 6), []inverseTestCase{
+		{0, 0, 0, 0},
+		{0, (5.0 / (6.0 - math.Sqrt(2)/2)) * (math.Sqrt(2) / 2), math.Pi / 4, 0},
+		{(5.0 / (6.0 - math.Sqrt(2)/2)) * (math.Sqrt(2) / 2), 0, 0, math.Pi / 4},
+	})
+}
+
 /*func TestTransverseMercatorProjectSanity(t *testing.T) {
 	xFrom := func(lat, lon float64) float64 {
 		return math.Log((1+math.Sin(lon)*math.Cos(lat))/(1-math.Sin(lon)*math.Cos(lat))) / 2

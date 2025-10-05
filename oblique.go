@@ -43,11 +43,12 @@ func (o ObliqueAspect) TransformFromOblique(latitude float64, longitude float64)
 	}
 
 	// relative longitude
-	if o.poleLat == math.Pi/2 {
+	switch o.poleLat {
+	case math.Pi / 2:
 		newLon = longitude - o.poleLon
-	} else if o.poleLat == -math.Pi/2 {
+	case -math.Pi / 2:
 		newLon = o.poleLon - longitude - math.Pi
-	} else {
+	default:
 		numer := o.cosPoleLat*math.Sin(latitude) - o.sinPoleLat*math.Cos(latitude)*poleRelCos
 		denom := math.Cos(newLat)
 		newLon = math.Acos(numer/denom) - math.Pi

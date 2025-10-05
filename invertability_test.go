@@ -113,6 +113,10 @@ func FuzzLagrangeProjectInverse(f *testing.F) {
 	projectInverseFuzz(f, NewLagrange())
 }
 
+func FuzzVerticalPerspectiveInverse(f *testing.F) {
+	projectInverseFuzz(f, NewVerticalPerspective(6))
+}
+
 func withinTolerance(n1, n2, tolerance float64) bool {
 	if n1 == n2 {
 		return true
@@ -141,7 +145,7 @@ func projectInverseFuzz(f *testing.F, proj Projection) {
 			}
 		} else {
 			if !withinTolerance(lat, rlat, 0.00001) || !withinTolerance(lon, rlon, 0.00001) {
-				t.Errorf("expected %e,%e, got %e,%e", lat, lon, rlat, rlon)
+				t.Errorf("expected %e,%e (%e, %e), got %e,%e", lat, lon, x, y, rlat, rlon)
 			}
 		}
 	})
